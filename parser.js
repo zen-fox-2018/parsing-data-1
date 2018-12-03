@@ -19,7 +19,7 @@ class PersonParser {
     this._file = file
     this._people = [];
     this.existingPerson();
-    console.log(this._people);
+    // console.log(this._people);
   }
 
   get people() {
@@ -38,7 +38,7 @@ class PersonParser {
     let files = data.split('\n');
 
     let datas = [];
-    for (let i = 1; i < files.length; i++) {
+    for (let i = 0; i < files.length; i++) {
       let detail = files[i].split(',');
       datas.push(detail);
     }
@@ -47,8 +47,10 @@ class PersonParser {
 
   existingPerson() {
     let datas = this.readFile();
+    // console.log(datas);
     for (let i = 0; i < datas.length; i++) {
       let peopleData = new Person(datas[i][0], datas[i][1], datas[i][2], datas[i][3], datas[i][4], datas[i][5]);
+      // console.log(peopleData);
       this.people = peopleData;
     }
   }
@@ -58,20 +60,21 @@ class PersonParser {
   }
 
   save() {
+    let datas = this.people;
+    // console.log(datas);
     let result = '';
-    for (let i = 0; i < this.people.length; i++) {
-      result += this.people[i].id + ',' + this.people[i].firstName + ',' + this.people[i].lastName 
-      + ',' + this.people[i].email + ',' + this.people[i].phoneNumber + ',' + this.people[i].createTime + '\n';
+    for (let i = 0; i < datas.length; i++) {
+      result += datas[i].id + ',' + datas[i].firstName + ',' + datas[i].lastName + ',' + datas[i].email + ',' + datas[i].phoneNumber + ',' + datas[i].createTime;
+      if (i !== datas.length - 1) {
+        result += '\n';
+      }
     }
-    fs.writeFileSync('./people.csv', result);
+    fs.writeFileSync(this.file, result);
   }
-
 }
 
-let parser = new PersonParser('people.csv')
-// console.log(PersonParser);
+let parser = new PersonParser('people.csv');
 let date = JSON.parse(JSON.stringify(new Date()));
-parser.addPerson(new Person(202, 'Kyle', 'Setan', 'kylesetan@gmail.com', '1-29485-843', date));
-
-console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`);
+parser.addPerson(new Person(201, 'Kyle', 'Setan', 'kylesetan@gmail.com', '1-29485-843', date));
 parser.save();
+console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`)
