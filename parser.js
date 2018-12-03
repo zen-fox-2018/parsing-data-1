@@ -30,7 +30,8 @@ class PersonParser {
 
   makeList() {
     for (let i = 1; i < this._arrFile.length; i++) {
-      this._people.push(new Person(this._arrFile[i].split(',')))
+      let person = this._arrFile[i].split(',')
+      this._people.push(new Person(person[0],person[1],person[2],person[3],person[4],person[5]))
     }
   }
 
