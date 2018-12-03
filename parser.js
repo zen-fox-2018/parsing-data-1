@@ -16,12 +16,16 @@ class PersonParser {
 
   constructor(file) {
     this._file = file
-    this._arrFile = fs.readFileSync(file, 'utf8').split('\n')
+    this._arrFile = this.readFile().split('\n')
     this._people = []
   }
 
   get people() {
     return this._people
+  }
+
+  readFile() {
+    return fs.readFileSync(this._file, 'utf8')
   }
 
   makeList() {
