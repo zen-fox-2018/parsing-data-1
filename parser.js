@@ -24,8 +24,9 @@ class PersonParser {
     return this._people
   }
 
-  addPerson(personObj) { 
+  addPerson(personObj) {
     this._people.push(personObj)
+    return `successfully add new person`
   }
 
   parsePeople(csv) {
@@ -39,10 +40,27 @@ class PersonParser {
     stringData = stringData.slice(1)
     return stringData
   }
+
+  save() {
+    let result = ``
+    result += `id,first_name,last_name,email,phone,created_at`
+    for (let i = 0; i < this.people.length; i++) {
+      result += `\n`
+      for (const key in this.people[i]) {
+        result += `${this.people[i][key]},`
+      }
+    }
+    fs.writeFileSync(`people.csv`, result)
+    return `Successfully save!`
+  }
 }
 
 let parser = new PersonParser('people.csv')
-console.log(parser.addPerson(new Person(`2`,`Taqi`, `Aziz`, `taqi@mail.com`, `087782387703`, new Date().toISOString())));
+console.log(parser.addPerson(new Person(`2`, `Taqi`, `Aziz`, `taqi@mail.com`, `087782387703`, new Date().toISOString())));
 console.log(`There are ${parser._people.length} people in the file '${parser._file}'.`)
+console.log(parser.save());
+
+
+
 
 
