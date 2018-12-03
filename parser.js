@@ -16,11 +16,16 @@ class PersonParser {
 
   constructor(file) {
     this._file = file
+    this._data = this.readFile()
     this._people = this.parsePeople(file)
   }
 
-  parsePeople(file) {
-    let data = fs.readFileSync(file, 'utf8').split('\n')
+  readFile() {
+    return fs.readFileSync(this.file, 'utf8').split('\n')
+  }
+
+  parsePeople() {
+    let data = this._data
     let result = []
     let dataArr = []
     for (let i = 1; i < data.length; i++) {
