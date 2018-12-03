@@ -20,6 +20,7 @@ class PersonParser {
 
   constructor(file) {
     this._file = file
+    this._rawData = fs.readFileSync(file, 'utf8')
     this._people = this.changeData()
 
     }
@@ -29,7 +30,8 @@ class PersonParser {
   }
 
   changeData() {
-    const dataPerson = fs.readFileSync(this.file, 'utf8').split('\n').map(a => a.split(','))
+    const dataPerson = this._rawData.split('\n').map(a => a.split(','))
+    // console.log(dataPerson);
     let output = []
     for (let i = 0 ; i < dataPerson.length ; i++) {
       // console.log(this.file[i]);
@@ -62,8 +64,8 @@ class PersonParser {
         let array = Object.values(this.people[i])
         output += array.join(',') + '\n'
       }
-      fs.writeFileSync(this.file, output)
     }
+    fs.writeFileSync(this.file, output)
   }
 
 }
