@@ -31,7 +31,6 @@ class PersonParser {
     
     addPerson(obj) {
         let newPerson = Object.values(obj).join(',');
-        console.log(newPerson);
         this._people.push(newPerson);
     }
 
@@ -52,5 +51,6 @@ let newPerson = {
 }
 
 parser.addPerson(new Person(newPerson));
-//parser.save();
+//console.log(parser.person);
+parser.save();
 console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`)
