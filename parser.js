@@ -68,7 +68,7 @@ class PersonParser {
         }
       }
       if (i === 0) {
-        dataString += "id,first_name,last_name,email,phone,created_at"
+        dataString += "id,first_name,last_name,email,phone,created_at" + "\n"
       }
       if (i != data.length-1) {
         string += "\n";
