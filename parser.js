@@ -1,5 +1,5 @@
 "use strict"
-
+const fs = require("fs")
 class Person {
   constructor(id,firstname,lastname,email,phone,create) {
     this._id = id;
@@ -53,7 +53,6 @@ class PersonParser {
   
 }
 
-const fs = require("fs")
 let parser = new PersonParser('people.csv')
 parser.parsing()
 parser.addPerson("201","fauzia","Nabilah","zia@gmail.com","021-876-112")
