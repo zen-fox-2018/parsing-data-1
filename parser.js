@@ -1,25 +1,50 @@
 "use strict"
+const fs = require('fs')
 
 class Person {
-  // Look at the above CSV file
-  // What attributes should a Person object have?
+  constructor(id,first_name,last_name,email,phone,created_at) {
+    this.id = id
+    this.first_name = first_name
+    this.last_name = last_name
+    this.email = email
+    this.phone = phone
+    this.created_at = created_at || new Date().toISOString()
+  }
 }
 
 class PersonParser {
 
   constructor(file) {
     this._file = file
-    this._people = null
+    this._arrFile = fs.readFileSync(file, 'utf8').split('\n')
+    this._people = []
   }
 
   get people() {
     return this._people
   }
 
-  addPerson() {}
+  makeList() {
+    for (let i = 1; i < this._arrFile.length; i++) {
+      this._people.push(new Person(this._arrFile[i].split(',')))
+    }
+  }
 
+  addPerson(input) {
+    this._people.push(input)
+  }
+
+  save() {
+    let result = this._arrFile[0]
+    for (let i = 1; i < this._people.length; i++) {
+      result += '\n' + Object.values(this._people[i])
+    }
+    fs.writeFileSync(this._file, result , 'utf8')
+  }
 }
 
 let parser = new PersonParser('people.csv')
-
-console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
+parser.makeList()
+parser.addPerson(new Person('201','Zia','Nabilah','Zia@mail.com','0811222'))
+parser.save()
+console.log(`There are ${parser.people.length} people in the file '${parser._file}'.`)
