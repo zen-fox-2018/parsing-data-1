@@ -36,7 +36,7 @@ class PersonParser {
 
   save() {
     let result = this._arrFile[0]
-    for (let i = 1; i < this._people.length; i++) {
+    for (let i = 0; i < this._people.length; i++) {
       result += '\n' + Object.values(this._people[i])
     }
     fs.writeFileSync(this._file, result , 'utf8')
@@ -46,5 +46,6 @@ class PersonParser {
 let parser = new PersonParser('people.csv')
 parser.makeList()
 parser.addPerson(new Person('201','Zia','Nabilah','Zia@mail.com','0811222'))
+parser.addPerson(new Person('202','Vene','Cia','Cia@mail.com','0811222'))
 parser.save()
 console.log(`There are ${parser.people.length} people in the file '${parser._file}'.`)
