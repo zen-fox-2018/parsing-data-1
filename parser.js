@@ -16,7 +16,6 @@ class Person {
 }
 
 class PersonParser {
-
   constructor(file) {
     this._file = file
     this._people = []
@@ -24,35 +23,47 @@ class PersonParser {
     this._dataParse = this.parsing()
   }
 
-  get people() {
+  get file () {
+    return this._file
+  }
+
+  get people () {
     return this._people
   }
 
-  get dataRaw() {
+  set people (data) {
+    this._people.push(data)
+  }
+
+  get people () {
+    return this._people
+  }
+
+  get dataRaw () {
     return this._dataRaw
   }
 
-  readFile() {
-    let data = fs.readFileSync(this._file, 'utf8').split('\n')
+  readFile () {
+    let data = fs.readFileSync(this.file, 'utf8').split('\n')
     return data
   }
 
-  parsing() {
+  parsing () {
     for(let i = 1; i < this.dataRaw.length; i++) {
-      this._people.push(this.dataRaw[i].split(','))
+      this.people = this.dataRaw[i].split(',')
     }
   }
   
-  addPerson(data) {
-    this._people.push(data)
+  addPerson (data) {
+    this.people = data
   }
   
-  save() {
+  save () {
     let newData = ''
-    for(let i = 0; i < this._people.length; i++) {
+    for(let i = 0; i < this.people.length; i++) {
       newData += Object.values(this.people[i]).join(',') + '\n'
     }
-    fs.writeFileSync('newPeople.csv', newData)
+    fs.writeFileSync(this.file, newData)
   } 
 }
 
@@ -63,4 +74,4 @@ let elis = new Person('202', 'Elis', 'Pao', 'elispao@mail.com', '081234567890', 
 parser.addPerson(januar)
 parser.addPerson(elis)
 parser.save()
-console.log(`There are ${parser.people.length} people in the file ${parser._file}`)
+console.log(`There are ${parser.people.length} people in the file ${parser.file}`)
