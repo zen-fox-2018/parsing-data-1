@@ -9,7 +9,7 @@ class Person {
     this._lastName = lastName;
     this._email = email;
     this._phone = phone;
-    this._createdAt = createdAt;
+    this._createdAt = new Date(createdAt).toISOString();
   }
 }
 
@@ -24,8 +24,8 @@ class PersonParser {
     return this._people
   }
 
-  addPerson() {
-    // console.log(parser.people)
+  addPerson(data) {
+    parser.people.push(data)
   }
 
   readFile() {
@@ -33,9 +33,10 @@ class PersonParser {
     return data
   }
 
-  writeFile(data) {
-    let addData = fs.writeFileSync(this._file, data);
-    return addData;
+  appendFile(data) {
+    let addData = fs.appendFileSync(this._file, data, "utf8");
+
+    return addData
   }
   
   parsing() {
@@ -46,12 +47,20 @@ class PersonParser {
       let parsed = new Person(splitted[0], splitted[1], splitted[2], splitted[3], splitted[4], splitted[5])
       this._people.push(parsed);
     }
-    // console.log(this._people);
+  }
+
+  save() {
+    let addPerson = "";
+    for(let i = 0; i < this._people.length; i++) {
+      addPerson += `${this._people[i]._id},${this._people[i]._firstName},${this._people[i]._lastName},${this._people[i]._email},${this._people[i]._phone},${this._people[i]._createdAt}`
+    }
+    this.appendFile(addPerson)
   }
 }
 
 let parser = new PersonParser('people.csv')
-parser.parsing()
-parser.addPerson()
+parser.addPerson(new Person(201, "luna", "freya", "lunafreya@mail.com", "0897654679", new Date()));
+// parser.parsing()
+parser.save()
 // console.log(parser.people)
-console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`)
+// console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`)
