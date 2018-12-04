@@ -35,11 +35,11 @@ class PersonParser {
     let file = this._rawData
     for (let i = 1 ; i < file.length ; i++) {
       let newData = file[i].split(",") 
-      this.addPerson(newData[0],newData[1],newData[2],newData[3],newData[4],newData[5])
+      let people = new Person(newData[0],newData[1],newData[2],newData[3],newData[4],newData[5])
+      this.addPerson(people)
     }
   }
-  addPerson (id,firstname,lastname,email,phone,create) {
-    let people = new Person(id,firstname,lastname,email,phone,create)
+  addPerson (people) {
     this._people.push(people)
   }
   save () {
@@ -54,8 +54,9 @@ class PersonParser {
 }
 
 let parser = new PersonParser('people.csv')
+let zia = new Person("201","fauzia","Nabilah","zia@gmail.com","021-876-112")
 parser.parsing()
-parser.addPerson("201","fauzia","Nabilah","zia@gmail.com","021-876-112")
+parser.addPerson(zia)
 parser.save()
 // console.log(parser.people)
 console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`)
